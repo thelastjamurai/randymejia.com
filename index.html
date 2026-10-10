@@ -26,7 +26,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&family=Inter+Tight:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,19 +43,21 @@
   <main id="top">
 
     <section class="intro" id="about">
-      <div class="intro-image">
-        <img src="photo.jpg" alt="Portrait of Randy Mejia">
-      </div>
-      <div class="intro-text">
-        <p class="eyebrow">Value Strategist</p>
-        <h1>Randy Mejia</h1>
-        <p>
-          I work in strategic revenue management for consumer packaged goods,
-          using five levers (price, promotion, mix, price pack architecture,
-          and trade) to create value for shoppers, consumers, retail customers,
-          and the company.
-        </p>
-        <a class="arrow-link" href="#levers">The five levers <span>→</span></a>
+      <h1 class="wordmark" aria-label="Randy Mejia"><span>Randy</span> <span>Mejia</span></h1>
+      <div class="intro-body">
+        <div class="intro-image">
+          <img src="photo.jpg" alt="Portrait of Randy Mejia">
+        </div>
+        <div class="intro-text">
+          <h2 class="role">Value<br>Strategist</h2>
+          <p>
+            I work in strategic revenue management for consumer packaged goods,
+            using five levers (price, promotion, mix, price pack architecture,
+            and trade) to create value for shoppers, consumers, retail customers,
+            and the company.
+          </p>
+          <a class="arrow-link" href="#levers">The five levers <span>→</span></a>
+        </div>
       </div>
     </section>
 
@@ -104,6 +106,31 @@
     <p class="fine">&copy; <span id="year">2026</span> Randy Mejia</p>
   </footer>
 
+  <script>
+    // Fit the wordmark to the full content width (like the Reseda hero)
+    (function () {
+      var el = document.querySelector('.wordmark');
+      if (!el) return;
+      var spans = el.querySelectorAll('span');
+      function fit() {
+        el.style.fontSize = '100px';
+        var box = el.parentElement.clientWidth -
+          parseFloat(getComputedStyle(el.parentElement).paddingLeft) -
+          parseFloat(getComputedStyle(el.parentElement).paddingRight);
+        var stacked = window.matchMedia('(max-width: 760px)').matches;
+        var w = 0;
+        if (stacked) {
+          spans.forEach(function (s) { w = Math.max(w, s.getBoundingClientRect().width); });
+        } else {
+          w = spans[spans.length - 1].getBoundingClientRect().right - spans[0].getBoundingClientRect().left;
+        }
+        if (w > 0) el.style.fontSize = (box / w * 100) + 'px';
+      }
+      fit();
+      window.addEventListener('resize', fit);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    })();
+  </script>
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
